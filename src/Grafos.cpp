@@ -1,4 +1,7 @@
+#include <functional>
 #include <iostream>
+#include <vector>
+
 //
 // Created by cland on 29/05/2025.
 //
@@ -117,7 +120,77 @@ void Grafos::eliminarArista(string origen, string destino){
         delete actual2;
     }
     cout << "se elimino la arista entre " << origen << " y " << destino << endl;
-};
+}
+
+void Grafos::mostrarCiudades() {
+    if (principio == nullptr) {
+        cout << "No hay ciudades registradas." << endl;
+        return;
+    }
+
+    cout << "Ciudades en la red de transporte:" << endl;
+    Vertice* actual = principio;
+    while (actual != nullptr) {
+        cout << "- " << actual->nombre << endl;
+        actual = actual->siguiente;
+    }
+}
+
+
+void Grafos::quickSort(vector<Arista*>& a, int inicio, int fin, const string& criterio) {
+    if (inicio >= fin) return;
+
+    int i = inicio;
+    int d = fin;
+    int pivote = (criterio == "distancia") ? a[(inicio + fin) / 2]->distancia : a[(inicio + fin) / 2]->tiempo;
+
+    while (i <= d) {
+        while ((criterio == "distancia" && a[i]->distancia < pivote) ||
+               (criterio == "tiempo" && a[i]->tiempo < pivote)) ++i;
+
+        while ((criterio == "distancia" && a[d]->distancia > pivote) ||
+               (criterio == "tiempo" && a[d]->tiempo > pivote)) --d;
+
+        if (i <= d) {
+            swap(a[i], a[d]);
+            ++i;
+            --d;
+        }
+    }
+
+    quickSort(a, inicio, d, criterio);
+    quickSort(a, i, fin, criterio);
+}
+
+void Grafos::ordenarCarreteras(string nombreCiudad, string criterio) {
+    Vertice* ciudad = obtenerVertice(nombreCiudad);
+    if (!ciudad) {
+        cout << "La ciudad no existe" << endl;
+        return;
+    }
+
+    vector<Arista*> aristas;
+    Arista* actual = ciudad->arista;
+    while (actual != nullptr) {
+        aristas.push_back(actual);
+        actual = actual->siguiente;
+    }
+
+    quickSort(aristas, 0, aristas.size() - 1, criterio);
+
+    // Reconstruimos la lista de aristas usando while + índice
+    size_t i = 0;
+    while (i < aristas.size() - 1) {
+        aristas[i]->siguiente = aristas[i + 1];
+        ++i;
+    }
+    aristas[i]->siguiente = nullptr;
+    ciudad->arista = aristas[0];
+
+    cout << "Carreteras de " << nombreCiudad << " ordenadas por " << criterio << "." << endl;
+}
+
+
 
 // tengo que eliminar toda la lista de aristas que tiene y ya puedo eliminar el vertice
 Grafos::~Grafos() {
@@ -136,14 +209,3 @@ Grafos::~Grafos() {
     cout<<"Se libero la memoria"<< endl;
 }
 
-void Grafos::ejecutar() {
-    insertarVertice("A");
-    insertarVertice("B");
-    insertarVertice("C");
-    insertarArista("A","B");
-    insertarArista("A","C");
-    listaAdyacencia();
-    eliminarArista("A","B");
-    listaAdyacencia();
-
-}

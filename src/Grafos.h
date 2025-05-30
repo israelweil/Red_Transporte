@@ -5,6 +5,8 @@
 #ifndef GRAFOS_H
 #define GRAFOS_H
 #include <string>
+#include <vector>
+
 struct Arista;
 using namespace std;
 struct Vertice {
@@ -36,6 +38,10 @@ public:
     void insertarArista(string origen, string destino);
     void listaAdyacencia();
     void eliminarArista(string origen, string destino);
+    void ordenarCarreteras(string nombreCiudad, string criterio); // "distancia" o "tiempo"
+    void quickSort(vector<Arista *> &a, int inicio, int fin, const string &criterio);
+    void mostrarCiudades();
+
     void ejecutar();
 };
 
