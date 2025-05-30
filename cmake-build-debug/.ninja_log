@@ -1,0 +1,7 @@
+# ninja log v6
+11	62	7702806947367685	clean	b4156cfd904aa1e6
+2830	3286	7702806993432894	Red_Transporte.exe	a277dc41c9d9957a
+6	2824	7702806965193079	CMakeFiles/Red_Transporte.dir/main.cpp.obj	6235eb5d182e28a
+40	2378	7702818101808041	CMakeFiles/Red_Transporte.dir/main.cpp.obj	6235eb5d182e28a
+49	2551	7702818101900017	CMakeFiles/Red_Transporte.dir/src/Grafos.cpp.obj	df083cf04dbc52d8
+2552	2814	7702818126914980	Red_Transporte.exe	f7b7e347f3d57ddf
