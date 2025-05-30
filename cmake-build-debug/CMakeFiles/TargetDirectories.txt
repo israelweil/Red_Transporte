@@ -1,0 +1,3 @@
+C:/Users/cland/CLionProjects/Red_Transporte/cmake-build-debug/CMakeFiles/Red_Transporte.dir
+C:/Users/cland/CLionProjects/Red_Transporte/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/cland/CLionProjects/Red_Transporte/cmake-build-debug/CMakeFiles/rebuild_cache.dir
