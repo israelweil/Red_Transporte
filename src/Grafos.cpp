@@ -45,11 +45,17 @@ void Grafos::insertarArista(string origen, string destino) {
         return;
     }
 
-    Arista * nuevaOrigen = new Arista(vdestino);
+    int distancia, tiempo;
+    cout << "Ingrese la distancia entre " << origen << " y " << destino << ": ";
+    cin >> distancia;
+    cout << "Ingrese el tiempo entre " << origen << " y " << destino << ": ";
+    cin >> tiempo;
+
+    Arista * nuevaOrigen = new Arista(vdestino, distancia, tiempo);
     nuevaOrigen -> siguiente = vorigen -> arista;
     vorigen -> arista = nuevaOrigen;
 
-    Arista * nuevaDestino = new Arista(vorigen);
+    Arista * nuevaDestino = new Arista(vorigen, distancia, tiempo);
     nuevaDestino -> siguiente = vdestino -> arista;
     vdestino -> arista = nuevaDestino;
 
@@ -60,18 +66,17 @@ void Grafos::insertarArista(string origen, string destino) {
 void Grafos::listaAdyacencia() {
     Vertice * v = principio;
     while (v != nullptr) {
-        cout<< v -> nombre<< "->";
+        cout << v->nombre << " -> ";
         Arista * a = v->arista;
         while (a != nullptr) {
-            cout<< a -> destino->nombre;
-            a = a-> siguiente;
+            cout << a->destino->nombre << " (D: " << a->distancia << ", T: " << a->tiempo << ") ";
+            a = a->siguiente;
         }
         cout << endl;
         v = v->siguiente;
-
     }
-    cout <<endl;
 }
+
 
 
 void Grafos::eliminarArista(string origen, string destino){

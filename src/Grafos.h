@@ -9,8 +9,7 @@ struct Arista;
 using namespace std;
 struct Vertice {
     string nombre;
-    Vertice * siguiente; // apuntador
-    //estructura tipo arista
+    Vertice * siguiente;
     Arista * arista;
 
 
@@ -20,33 +19,23 @@ struct Vertice {
 struct Arista {
     Arista * siguiente; // apuntador
     Vertice * destino;
+    int distancia;
+    int tiempo;
 
-    Arista(Vertice *  d) {
-        destino = d;
-        siguiente = nullptr;
-    }
+    Arista(Vertice *  d, int dist, int tiemp) : destino(d), distancia(dist), tiempo(tiemp), siguiente(nullptr) {};
 };
 
 class Grafos {
 private:
     Vertice * principio;
     Vertice * obtenerVertice(string n);
-
-
 public:
     Grafos();
-
     ~Grafos();
-
     void insertarVertice(string n);
-
     void insertarArista(string origen, string destino);
-
     void listaAdyacencia();
-
     void eliminarArista(string origen, string destino);
-
-
     void ejecutar();
 };
 
