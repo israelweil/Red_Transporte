@@ -1,10 +1,6 @@
 #include <functional>
 #include <iostream>
 #include <vector>
-
-//
-// Created by cland on 29/05/2025.
-//
 using namespace std;
 #include "Grafos.h"
 Grafos::Grafos():principio(nullptr){}
@@ -22,7 +18,7 @@ Vertice * Grafos::obtenerVertice(string n) {
 
 void Grafos::insertarVertice(string n) {
     if (obtenerVertice(n) != nullptr) {
-        cout << "ya existe ese vertice"<<endl;
+        cout << "ya existe esta ciudad"<<endl;
         return;
     }
 
@@ -31,11 +27,11 @@ void Grafos::insertarVertice(string n) {
         principio = nuevo;
     } else {
         Vertice * temp = principio;
-        while (temp -> siguiente != nullptr) { // me coloca en el ultimo valor
+        while (temp -> siguiente != nullptr) {
             temp = temp ->siguiente;
         }
         temp -> siguiente = nuevo;
-        cout << "se inserto el vertice:  " << n << endl;
+        cout << "se inserto la ciudad:  " << n << endl;
     }
 }
 
@@ -44,14 +40,14 @@ void Grafos::insertarArista(string origen, string destino) {
     Vertice * vdestino = obtenerVertice(destino);
 
     if (vorigen == nullptr || vdestino == nullptr) {
-        cout << "Uno o ambos vertices no existen" << endl;
+        cout << "Una o ambas ciudades no existen" << endl;
         return;
     }
 
     int distancia, tiempo;
-    cout << "Ingrese la distancia entre " << origen << " y " << destino << ": ";
+    cout << "Ingrese la distancia en kilometros entre " << origen << " y " << destino << ": "<<endl;
     cin >> distancia;
-    cout << "Ingrese el tiempo entre " << origen << " y " << destino << ": ";
+    cout << " Ingrese el tiempo en horas entre " << origen << " y " << destino << ": "<<endl;
     cin >> tiempo;
 
     Arista * nuevaOrigen = new Arista(vdestino, distancia, tiempo);
@@ -62,20 +58,20 @@ void Grafos::insertarArista(string origen, string destino) {
     nuevaDestino -> siguiente = vdestino -> arista;
     vdestino -> arista = nuevaDestino;
 
-    cout << "Se inserto la arista de " << origen << " y " << destino << endl;
+    cout << "Se inserto la carretera entre " << origen << " y " << destino << endl;
 }
 
 
 void Grafos::listaAdyacencia() {
     Vertice * v = principio;
     while (v != nullptr) {
-        cout << v->nombre << " -> ";
+        cout << "|"<<v->nombre <<"|"<< " -> "<<"|";
         Arista * a = v->arista;
         while (a != nullptr) {
-            cout << a->destino->nombre << " (D: " << a->distancia << ", T: " << a->tiempo << ") ";
+            cout << a->destino->nombre << " (D: " << a->distancia << " km, T: " << a->tiempo << " hrs) "<<"|";
             a = a->siguiente;
         }
-        cout << endl;
+        cout <<"|"<< endl;
         v = v->siguiente;
     }
 }
@@ -86,7 +82,7 @@ void Grafos::eliminarArista(string origen, string destino){
     Vertice* vorigen = obtenerVertice(origen);
     Vertice * vdestino = obtenerVertice(destino);
     if(vorigen == nullptr || vdestino==nullptr){
-        cout << "no existe uno o los dos vertices" << endl;
+        cout << "no existe una o las dos ciudades" << endl;
         return;
     }
     //arista origen->destino
@@ -97,14 +93,13 @@ void Grafos::eliminarArista(string origen, string destino){
         actual=actual->siguiente;
     }
     if(actual == nullptr){
-        cout << "no se encontro la arista" << endl;
+        cout << "no se encontro la carretera" << endl;
         return;
     }else{
         if(anterior==nullptr) vorigen->arista = actual->siguiente;
         else anterior->siguiente = actual->siguiente;
         delete actual;
     }
-    //arista destino->origen
     Arista* actual2 = vdestino->arista;
     Arista* anterior2 = nullptr;
     while(actual2 != nullptr && actual2->destino != vorigen){
@@ -112,14 +107,14 @@ void Grafos::eliminarArista(string origen, string destino){
         actual2=actual2->siguiente;
     }
     if(actual2 == nullptr){
-        cout << "no se encontro la arista" << endl;
+        cout << "no se encontro la carretera" << endl;
         return;
     }else{
         if(anterior2==nullptr) vdestino->arista = actual2->siguiente;
         else anterior2->siguiente = actual2->siguiente;
         delete actual2;
     }
-    cout << "se elimino la arista entre " << origen << " y " << destino << endl;
+    cout << "se elimino la carretera entre " << origen << " y " << destino << endl;
 }
 
 void Grafos::mostrarCiudades() {
@@ -178,7 +173,6 @@ void Grafos::ordenarCarreteras(string nombreCiudad, string criterio) {
 
     quickSort(aristas, 0, aristas.size() - 1, criterio);
 
-    // Reconstruimos la lista de aristas usando while + índice
     size_t i = 0;
     while (i < aristas.size() - 1) {
         aristas[i]->siguiente = aristas[i + 1];
@@ -191,12 +185,25 @@ void Grafos::ordenarCarreteras(string nombreCiudad, string criterio) {
 }
 
 
+void Grafos::mostrarVerticeConAristas(const string& nombreCiudad) {
+    Vertice* v = obtenerVertice(nombreCiudad);
 
-// tengo que eliminar toda la lista de aristas que tiene y ya puedo eliminar el vertice
+    cout << v->nombre << " -> ";
+    Arista* a = v->arista;
+    while (a != nullptr) {
+        cout << a->destino->nombre << " (D: " << a->distancia << " km, T: " << a->tiempo << " hrs) ";
+        a = a->siguiente;
+    }
+    cout << endl;
+}
+bool Grafos::vacio() {
+    if (principio==nullptr) return 0;
+}
+
 Grafos::~Grafos() {
     Vertice * v = principio;
     while (v != nullptr) {
-        Arista * a = v -> arista; // aqui entro a la lista de aristas de este vertice
+        Arista * a = v -> arista;
         while (a != nullptr) {
             Arista * tempA = a;
             a = a -> siguiente;
@@ -206,6 +213,6 @@ Grafos::~Grafos() {
         v =v-> siguiente;
         delete tempV;
     }
-    cout<<"Se libero la memoria"<< endl;
+    cout<<"\n\nSe libero la memoria"<< endl;
 }
 

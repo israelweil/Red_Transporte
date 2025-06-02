@@ -1,7 +1,6 @@
 // Menu.h
 #ifndef MENU_H
 #define MENU_H
-
 #include <iostream>
 #include <string>
 #include "Grafos.h"
@@ -12,31 +11,45 @@ class Menu {
 private:
     Grafos grafo;
 
+    string leerCiudades() {
+        string nombre;
+        cin >> nombre;
+        if (!nombre.empty()) {
+            nombre[0] = toupper(nombre[0]);
+
+            for (size_t i = 1; i < nombre.length(); i++) {
+                nombre[i] = tolower(nombre[i]);
+            }
+        }
+        return nombre;
+    }
     void agregarCiudad() {
         string nombre;
         cout << "Ingrese el nombre de la ciudad: ";
-        cin >> nombre;
+        nombre = leerCiudades();
         grafo.insertarVertice(nombre);
     }
 
     void agregarCarretera() {
         string c1, c2;
         cout << "Ciudad origen: ";
-        cin >> c1;
+        c1= leerCiudades();
         cout << "Ciudad destino: ";
-        cin >> c2;
+        c2 = leerCiudades();
         grafo.insertarArista(c1, c2);
     }
 
     void ordenarCarreteras() {
         grafo.mostrarCiudades();
+        if (grafo.vacio()==0) return;
         int opcion;
         string ciudad, criterio;
-        cout << "Ingrese el nombre de la ciudad para ordenar sus carreteras: ";
-        cin >> ciudad;
-        cout << "Ingrese criterio de orden:\n";
-        cout << "1. Distancia\n2. Tiempo\nSeleccione una opcion: "<<endl;
+        cout << "Ingrese el nombre de la ciudad para ordenar sus carreteras:   ";
+        ciudad= leerCiudades();
+        cout << "Ingrese criterio de orden:"<< endl;
+        cout << "1. Distancia\n2. Tiempo\nSeleccione una opcion: ";
         cin >> opcion;
+        cout << endl;
         if (opcion == 1) {
             criterio = "distancia";
         } else if (opcion == 2) {
@@ -46,11 +59,11 @@ private:
             criterio = "distancia";
         }
         grafo.ordenarCarreteras(ciudad, criterio);
-        grafo.listaAdyacencia();
+        grafo.mostrarVerticeConAristas(ciudad);
     }
 
     void mostrarCarreteras() {
-        cout << "\nLista de adyacencia:\n";
+        cout << "\nLista de ciudades y carreteras:"<< endl;
         grafo.listaAdyacencia();
     }
     void mostrarCiudades() {

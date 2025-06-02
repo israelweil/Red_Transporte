@@ -39,6 +39,10 @@ public:
     void listaAdyacencia();
     void eliminarArista(string origen, string destino);
     void ordenarCarreteras(string nombreCiudad, string criterio); // "distancia" o "tiempo"
+    void mostrarVerticeConAristas(const string &nombreCiudad);
+
+    bool vacio();
+
     void quickSort(vector<Arista *> &a, int inicio, int fin, const string &criterio);
     void mostrarCiudades();
 
